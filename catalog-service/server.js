@@ -60,6 +60,39 @@ app.put('/update/:id', (req, res) => {
 
 
 
+// Function to fetch a specific book from the database using ID
+
+const readItemWithID = (id, callback) => {
+    db.get("SELECT * FROM books WHERE id = ?", [id], (err, row) => {
+        if (err) {
+            return callback(err, null);
+        }
+        callback(null, row ? [row] : []);
+    });
+};
+
+
+// Function to update inventory when a book is purchased
+
+const updateItem = (id, newStock, callback) => {
+    db.run("UPDATE books SET stock = ? WHERE id = ?", [newStock, id], function (err) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null);
+    });
+};
+ 
+
+// export for import in order service
+module.exports = {
+  readItemWithID,
+  updateItem,
+
+};
+
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}..`);
 });
