@@ -60,13 +60,10 @@
         async function purchaseItem() {
             const id = document.getElementById('purchase-id').value;
             const quantity = document.getElementById('quantity').value;
-            const response = await fetch(`/PurchaseBook/${id}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity: parseInt(quantity) })
-            });
-            const data = await response.json();
-            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            /*
+           ---------------- purchase api ------------------------------
+            
+            */
         }
     
         function displayResults(items) {
