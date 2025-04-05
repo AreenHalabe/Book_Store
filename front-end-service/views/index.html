@@ -71,7 +71,8 @@
             });
 
             const data = await response.json();
-            displayResults([data]); 
+           // displayResults([data]); 
+           document.getElementById('output').textContent = JSON.stringify(data, null, 2);
         } catch (error) {
             console.error('Purchase Error:', error);
         }
