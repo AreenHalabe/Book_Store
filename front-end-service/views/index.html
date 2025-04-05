@@ -58,17 +58,29 @@
         }
     
         async function purchaseItem() {
-            const id = document.getElementById('purchase-id').value;
-            const quantity = document.getElementById('quantity').value;
-            /*
-           ---------------- purchase api ------------------------------
-            
-            */
+        const id = document.getElementById('purchase-id').value;
+        const quantity = parseInt(document.getElementById('quantity').value);
+
+        try {
+            const response = await fetch(`/purchase/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity })
+            });
+
+            const data = await response.json();
+            displayResults([data]); 
+        } catch (error) {
+            console.error('Purchase Error:', error);
         }
+    }
+
     
         function displayResults(items) {
             const output = document.getElementById('output');
-            output.innerHTML = ''; // Clear previous results
+            output.innerHTML = ''; 
             
             const formattedList = document.createElement('pre');
             formattedList.style.fontFamily = 'monospace';
