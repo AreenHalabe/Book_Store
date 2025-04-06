@@ -1,30 +1,16 @@
-version: '3'
-
+version: "3.8"
 services:
-  catalog-service:
-    build:
-      context: ./catalog-service
+  catalog:
+    build: ./catalog-service
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-    volumes:
-      - ./catalog-service:/app/catalog-service
-      - ./catalog-service/BookDatabase.dp:/app/catalog-service/BookDatabase.dp
 
-  order-service:
-    build:
-      context: ./order-service
+  order:
+    build: ./order-service
     ports:
       - "3001:3001"
-    depends_on:
-      - catalog-service
-    environment:
-      - NODE_ENV=production
-      - PORT=3001
-    volumes:
-      - ./order-service:/app/order-service
-      - ./catalog-service:/app/catalog-service
 
- 
+  frontend:
+    build: ./front-end-service
+    ports:
+      - "3002:3002"

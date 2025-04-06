@@ -11,7 +11,7 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.db'), (err) => {
     }
 });
 
-// Create the 'order' table
+//Create the 'order' table
 // db.serialize(() => {
 //     // Create the 'orders' table if it doesn't already exist
 //     db.run(`CREATE TABLE IF NOT EXISTS orders (
