@@ -54,29 +54,42 @@
             const id = document.getElementById('item-id').value;
             const response = await fetch(`/info/${id}`);
             const data = await response.json();
+            console.log(data);
             displayResults([data]); // Wrapping in an array for consistent formatting
         }
     
         async function purchaseItem() {
-        const id = document.getElementById('purchase-id').value;
-        const quantity = parseInt(document.getElementById('quantity').value);
+            const id = document.getElementById('purchase-id').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
 
-        try {
-            const response = await fetch(`/purchase/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ quantity })
-            });
+            try {
+                const response = await fetch(`/purchase/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ quantity })
+                });
 
-            const data = await response.json();
-            displayResults([data]); 
-        } catch (error) {
-            console.error('Purchase Error:', error);
+                // Reset the output message
+                document.getElementById('output').innerHTML = '';
+
+                if (!response.ok) {
+                    // Handle error response
+                    const result = await response.json();
+                    if (result.error) {
+                        document.getElementById('output').innerHTML = result.error;  // Display error message
+                    }
+                } else {
+                    // Handle success response
+                    const result = await response.json();
+                    document.getElementById('output').innerHTML = result.message || result.data || 'Purchase successful!';
+                }
+            } catch (error) {
+                console.error('Purchase Error:', error);
+                document.getElementById('output').innerHTML = 'An error occurred. Please try again later.';
+            }
         }
-    }
-
     
         function displayResults(items) {
             const output = document.getElementById('output');

@@ -1,49 +1,57 @@
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const db = require('./database');
 
-const { readItemWithID, updateItem } = require("../catalog-service/server.js");
 
 const app = express();
 app.use(bodyParser.json());
-
+const CATALOG_URL ='http://catalog:3000';
 const PORT = process.env.PORT || 3001;
 
-app.get("/PurchaseBook/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const response = await axios.get(`http://localhost:3000/info/${id}`);
+app.post('/purchase/:id', async (req, res) => {
+  const bookId = req.params.id;
+  const {quantity} = req.body;
 
-    if (!response.data || Object.keys(response.data).length === 0) {
-      return res.status(404).send("Book Not Found");
-    }
-
-   //! check if the book is found (Correct ID)
-   if (response.data.length > 0) {
-    readItemWithID(id, (err, raw) => {
-      if (err) {
-        res.status(500).send("Error While Reading");
-      } else {
-        let stock = raw[0].Stocks; //! The number of Stocks
-        //! i can buy the book
-        if (stock > 0) {
-          res.send("Successful Purchase");
-        //  res.send( updateItem(id, --stock));
-          updateItem(id, --stock);
-        } else {
-          //! The Stocks of Book is 0x
-          res.send("Out of Stock");
-        }
-      }
-    });
-  } else {
-    //! The ID is wrong !
-    res.status(201).send("Book Not Found");
-  }
-} catch (error) {
-  res.status(500).send("Error While Purchase");
+  if (!bookId || quantity <= 0) {
+    return res.status(400).json({ error: "Invalid bookId or quantity" });
 }
+
+  try {
+    const response = await axios.get(`${CATALOG_URL}/info/${bookId}`);
+
+    const book = response.data;
+
+    if (book.stock < quantity) return res.status(400).json({ error: 'Out of stock' });
+      // Update catalog with new stock using PUT
+      const updatedBook = {
+        title: book.title,
+        stock: book.stock - quantity,
+        cost: book.cost,
+        topic: book.topic
+      };
+
+      const totalCost = book.cost * quantity;
+
+      await axios.put(`${CATALOG_URL}/update/${bookId}`, updatedBook);
+
+      db.run(
+        "INSERT INTO orders (bookId, copies, cost) VALUES (?, ?, ?)",
+        [bookId, quantity, totalCost],
+        (err) => {
+          if (err) {
+            console.error('Order insert error:', err.message);
+            return res.status(500).json({ error: err.message });
+          }
+          res.json({ message: `Purchased ${quantity} copy/copies of this book title -> : ${book.title}` });
+        }
+      );
+
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
 });
+
 
 
 app.listen(PORT, () => {
