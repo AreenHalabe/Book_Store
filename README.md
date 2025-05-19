@@ -33,14 +33,12 @@ This project consists of **three separate services**, each running on its own se
 
 ### 1. Clone the repository
 
- ```bash
- cloane the repo https://github.com/AreenHalabe/Book_Store.git
- make sure you inside Book_Store
+` cloane the repo https://github.com/AreenHalabe/Book_Store.git
+ make sure you inside Book_Store`
 
 ### 2.Make sure to install WSL and Docker Desktop on your machine.
 ### 3.Make sure you are in the repo directory.
 
 ### 4.Open VSCode Terminal.
 ### 5.Type :
-```bash
- docker-compose up --build
+` docker-compose up --build`
