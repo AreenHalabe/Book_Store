@@ -34,6 +34,7 @@ This project consists of **three separate services**, each running on its own se
 #### 1. Clone the repository
 
 ` cloane the repo https://github.com/AreenHalabe/Book_Store.git`
+
  `make sure you inside Book_Store`
 
 #### 2.Make sure to install WSL and Docker Desktop on your machine.
