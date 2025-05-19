@@ -31,14 +31,14 @@ This project consists of **three separate services**, each running on its own se
 
 ## 🖥️ Installation and Running the App
 
-### 1. Clone the repository
+#### 1. Clone the repository
 
-` cloane the repo https://github.com/AreenHalabe/Book_Store.git
- make sure you inside Book_Store`
+` cloane the repo https://github.com/AreenHalabe/Book_Store.git`
+ `make sure you inside Book_Store`
 
-### 2.Make sure to install WSL and Docker Desktop on your machine.
-### 3.Make sure you are in the repo directory.
+#### 2.Make sure to install WSL and Docker Desktop on your machine.
+#### 3.Make sure you are in the repo directory.
 
-### 4.Open VSCode Terminal.
-### 5.Type :
+#### 4.Open VSCode Terminal.
+#### 5.Type :
 ` docker-compose up --build`
