@@ -36,7 +36,7 @@ This project consists of **three separate services**, each running on its own se
 ```bash
 cloane the repo https://github.com/AreenHalabe/Book_Store.git
 make sure you inside Book_Store
-
+```bash
 ### 2.Make sure to install WSL and Docker Desktop on your machine.
 ### 3.Make sure you are in the repo directory.
 
